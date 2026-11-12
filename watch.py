@@ -35,15 +35,17 @@ TIMEOUT_SECONDS = 10
 RETRY_WAIT_SECONDS = 5
 MAX_BODY_BYTES = 65536
 
-APP = "https://app.homedoctors4u.com"
-SITE = "https://www.homedoctors4u.com"
+# Our three public host names. The page and the data name no other host.
+APP = "https://app.homedoctors4u.com"  # the website: staff and providers
+AGENCY = "https://hhn.homedoctors4u.com"  # the agency portal
+SITE = "https://www.homedoctors4u.com"  # our public website
 
 # What a run asks, in order: (key, address).
 PROBES = (
     ("app", APP + "/api/health"),
     ("ready", APP + "/api/health/ready"),
     ("signin", APP + "/login"),
-    ("agency", APP + "/hhn/login"),
+    ("agency", AGENCY + "/hhn/login"),
     ("feed", APP + "/api/status"),
     ("site", SITE),
 )

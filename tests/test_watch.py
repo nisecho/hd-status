@@ -504,7 +504,7 @@ class Requests(unittest.TestCase):
                 "https://app.homedoctors4u.com/api/health",
                 "https://app.homedoctors4u.com/api/health/ready",
                 "https://app.homedoctors4u.com/login",
-                "https://app.homedoctors4u.com/hhn/login",
+                "https://hhn.homedoctors4u.com/hhn/login",
                 "https://app.homedoctors4u.com/api/status",
                 "https://www.homedoctors4u.com",
             ],
@@ -636,8 +636,12 @@ class Page(unittest.TestCase):
     def test_the_page_loads_nothing_from_another_host(self):
         addresses = set(re.findall(r"https?://[^\s\"'<>)]+", self.html))
         self.assertEqual(
-            {address.rstrip(".") for address in addresses},
-            {"https://app.homedoctors4u.com", "https://www.homedoctors4u.com"},
+            {address.rstrip(".,") for address in addresses},
+            {
+                "https://app.homedoctors4u.com",
+                "https://hhn.homedoctors4u.com",
+                "https://www.homedoctors4u.com",
+            },
         )
         self.assertNotRegex(self.html, r"<script[^>]+src=")
         self.assertNotRegex(self.html, r"<link[^>]+stylesheet")
@@ -654,6 +658,52 @@ class Page(unittest.TestCase):
                 "down": "The website is not answering.",
             },
         )
+
+
+class Workflow(unittest.TestCase):
+    """What can be read from the workflow file without running it on GitHub."""
+
+    text = (ROOT / ".github" / "workflows" / "watch.yml").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    def uses(self):
+        return re.findall(r"^\s*(?:- )?uses:\s*(.+)$", self.text, re.M)
+
+    def test_every_action_is_pinned_to_a_commit_with_its_version(self):
+        lines = self.uses()
+        self.assertEqual(
+            [line.split("@")[0] for line in lines],
+            ["actions/checkout", "actions/upload-pages-artifact", "actions/deploy-pages"],
+        )
+        for line in lines:
+            self.assertRegex(line, r"^actions/[a-z-]+@[0-9a-f]{40} # v\d+\.\d+\.\d+$")
+        self.assertNotIn("TODO pin", self.text)
+
+    def test_the_readme_names_the_same_commits(self):
+        for line in self.uses():
+            name, rest = line.split("@")
+            commit, version = rest.split(" # ")
+            self.assertIn(f"| `{name}` | {version} | `{commit}` |", self.readme)
+
+    def test_no_secret_and_only_the_three_permissions(self):
+        self.assertNotIn("secrets.", self.text)
+        self.assertNotIn("_TOKEN", self.text)
+        granted = re.findall(r"^\s+([a-z-]+): (write|read)\b", self.text, re.M)
+        self.assertEqual(
+            granted, [("contents", "write"), ("pages", "write"), ("id-token", "write")]
+        )
+        self.assertIn("\npermissions: {}\n", self.text)
+
+    def test_the_site_is_packed_from_the_commit_and_holds_two_files(self):
+        self.assertIn("git archive HEAD index.html data/summary.json | tar -x -C _site", self.text)
+        self.assertLess(self.text.index("git push"), self.text.index("git archive HEAD"))
+        self.assertLess(self.text.index("git archive HEAD"), self.text.index("upload-pages-artifact@"))
+        self.assertIn("needs: watch", self.text)
+        self.assertNotIn("always()", self.text)
+        self.assertNotIn("continue-on-error", self.text)
+
+    def test_one_run_at_a_time(self):
+        self.assertRegex(self.text, r"\nconcurrency:\n  group: watch\n  cancel-in-progress: false\n")
 
 
 if __name__ == "__main__":
