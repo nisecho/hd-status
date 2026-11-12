@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Doctors service status</title>
+<meta name="description" content="Whether the Home Doctors website and its services are working, checked about every 5 minutes.">
+<link rel="icon" href="data:,">
+<style>
+:root {
+  color-scheme: light dark;
+  --page: #f4f6f8;
+  --card: #ffffff;
+  --text: #171c21;
+  --muted: #56616c;
+  --line: #d9dfe5;
+  --ok: #17794a;
+  --ok-bg: #e3f3ea;
+  --warn: #8f5200;
+  --warn-bg: #fcf1d8;
+  --bad: #b5281c;
+  --bad-bg: #fce8e5;
+  --idle-bg: #e9edf1;
+  --day-good: #2f9e66;
+  --day-partial: #e2a100;
+  --day-bad: #cf3b2e;
+  --day-none: #dfe4e9;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #101316;
+    --card: #191e23;
+    --text: #e9edf0;
+    --muted: #a0abb5;
+    --line: #2d353c;
+    --ok: #57c890;
+    --ok-bg: #12301f;
+    --warn: #f2b83a;
+    --warn-bg: #382a07;
+    --bad: #ff7a6d;
+    --bad-bg: #3e1915;
+    --idle-bg: #232a30;
+    --day-good: #3fae76;
+    --day-partial: #e0a81e;
+    --day-bad: #e5574a;
+    --day-none: #2b333a;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 20px 16px 40px; }
+h1 { font-size: 1rem; font-weight: 600; margin: 0 0 14px; color: var(--muted); letter-spacing: 0.01em; }
+h2 { font-size: 1.05rem; margin: 30px 0 10px; }
+h3 { font-size: 1rem; margin: 0; font-weight: 600; }
+p { margin: 0; }
+a { color: inherit; }
+
+.top { border-radius: 12px; padding: 20px; background: var(--idle-bg); border: 1px solid var(--line); }
+.top[data-tone="ok"] { background: var(--ok-bg); border-color: transparent; }
+.top[data-tone="trouble"] { background: var(--warn-bg); border-color: transparent; }
+.top[data-tone="down"] { background: var(--bad-bg); border-color: transparent; }
+.headline { display: flex; align-items: center; gap: 14px; font-size: clamp(1.45rem, 5.6vw, 2rem); line-height: 1.2; font-weight: 700; }
+.mark { flex: none; width: 1.5em; height: 1.5em; border-radius: 50%; display: grid; place-items: center; font-size: 0.8em; font-weight: 700; color: var(--card); background: var(--muted); }
+.top[data-tone="ok"] .mark { background: var(--ok); }
+.top[data-tone="trouble"] .mark { background: var(--warn); }
+.top[data-tone="down"] .mark { background: var(--bad); }
+.checked { margin-top: 10px; color: var(--muted); }
+.top[data-tone] .checked { color: var(--text); }
+.stale { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--card); border: 2px solid var(--warn); font-weight: 600; }
+
+.comp { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+.comp-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; }
+.state { font-weight: 600; }
+.state::before { content: ""; display: inline-block; width: 0.6em; height: 0.6em; border-radius: 50%; margin-right: 0.45em; background: currentColor; }
+.state.ok { color: var(--ok); }
+.state.trouble { color: var(--bad); }
+.state.unknown { color: var(--muted); }
+.note { margin-top: 4px; }
+.strip { display: grid; grid-template-columns: repeat(90, minmax(0, 1fr)); gap: 1px; margin-top: 12px; }
+@media (min-width: 560px) { .strip { gap: 2px; } }
+.strip i { display: block; height: 28px; border-radius: 1px; background: var(--day-none); }
+.strip i.g { background: var(--day-good); }
+.strip i.p { background: var(--day-partial); }
+.strip i.b { background: var(--day-bad); }
+.ends { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.8rem; margin-top: 3px; }
+.uptime { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 10px 0 0; }
+.uptime div { min-width: 0; }
+.uptime dt { color: var(--muted); font-size: 0.8rem; }
+.uptime dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.uptime dd.none { font-weight: 400; font-size: 0.8rem; color: var(--muted); }
+.uptime-none { margin-top: 10px; color: var(--muted); font-size: 0.9rem; }
+
+.legend { color: var(--muted); font-size: 0.85rem; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.legend span::before { content: ""; display: inline-block; width: 0.7em; height: 0.7em; border-radius: 2px; margin-right: 0.4em; background: var(--day-none); }
+.legend .g::before { background: var(--day-good); }
+.legend .p::before { background: var(--day-partial); }
+.legend .b::before { background: var(--day-bad); }
+.began { color: var(--muted); font-size: 0.85rem; margin-top: 6px; }
+
+.incidents { list-style: none; margin: 0; padding: 0; }
+.incidents li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; margin-bottom: 8px; }
+.incidents .open { border-color: var(--bad); }
+.incidents strong { display: block; }
+.quiet { color: var(--muted); }
+.how { color: var(--muted); }
+footer { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Home Doctors service status</h1>
+
+  <section class="top" id="top" aria-live="polite">
+    <p class="headline"><span class="mark" id="mark" aria-hidden="true">…</span><span id="headline">Reading the last check.</span></p>
+    <p class="checked" id="checked"></p>
+    <p class="stale" id="stale" hidden></p>
+  </section>
+  <noscript><p class="note">This page needs JavaScript to show the last check.</p></noscript>
+
+  <section aria-labelledby="services-title">
+    <h2 id="services-title">Services</h2>
+    <div id="components"><p class="quiet">No check result yet.</p></div>
+    <p class="legend" id="legend" hidden>
+      <span class="g">A day with no trouble</span>
+      <span class="p">Some trouble</span>
+      <span class="b">Trouble for a large part of the day</span>
+      <span class="n">No checks</span>
+    </p>
+    <p class="began" id="began" hidden></p>
+  </section>
+
+  <section aria-labelledby="incidents-title">
+    <h2 id="incidents-title">Past incidents</h2>
+    <ul class="incidents" id="incidents"><li class="quiet">No check result yet.</li></ul>
+  </section>
+
+  <section aria-labelledby="how-title">
+    <h2 id="how-title">How this page works</h2>
+    <p class="how">A watcher outside our systems checks each service about every 5 minutes. A check can be a few minutes late. Uptime is the share of checks that found the service working. An incident is two or more failed checks in a row. This page is not a part of the website, so it also loads when the website does not.</p>
+  </section>
+
+  <footer>
+    All times are US Central time. The website is https://app.homedoctors4u.com and our public website is https://www.homedoctors4u.com.
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* pure:start */
+  var ZONE = "America/Chicago";
+
+  // "11/12/2026 5:05 PM", in US Central time.
+  function centralTime(isoText) {
+    var when = new Date(isoText);
+    if (isNaN(when.getTime())) { return ""; }
+    var parts = {};
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: ZONE, month: "2-digit", day: "2-digit", year: "numeric",
+      hour: "numeric", minute: "2-digit", hour12: true
+    }).formatToParts(when).forEach(function (part) { parts[part.type] = part.value; });
+    return parts.month + "/" + parts.day + "/" + parts.year + " " +
+      parts.hour + ":" + parts.minute + " " + parts.dayPeriod;
+  }
+
+  function plural(count, word) {
+    return count + " " + word + (count === 1 ? "" : "s");
+  }
+
+  // "35 minutes", "2 hours 5 minutes", "1 day 3 hours".
+  function durationText(minutes) {
+    minutes = Math.max(0, Math.round(minutes));
+    if (minutes < 1) { return "less than a minute"; }
+    if (minutes < 60) { return plural(minutes, "minute"); }
+    var hours = Math.floor(minutes / 60);
+    var rest = minutes % 60;
+    if (hours < 24) { return plural(hours, "hour") + (rest ? " " + plural(rest, "minute") : ""); }
+    var days = Math.floor(hours / 24);
+    hours = hours % 24;
+    return plural(days, "day") + (hours ? " " + plural(hours, "hour") : "");
+  }
+
+  // "3 minutes ago", "2 hours ago", "4 days ago".
+  function ageText(minutes) {
+    minutes = Math.max(0, Math.floor(minutes));
+    if (minutes < 1) { return "less than a minute ago"; }
+    if (minutes < 60) { return plural(minutes, "minute") + " ago"; }
+    if (minutes < 48 * 60) { return plural(Math.floor(minutes / 60), "hour") + " ago"; }
+    return plural(Math.floor(minutes / 1440), "day") + " ago";
+  }
+
+  function ageMinutes(checkedMs, nowMs) {
+    return Math.max(0, Math.floor((nowMs - checkedMs) / 60000));
+  }
+
+  // The stale rule: a check older than the limit gets a plain sentence.
+  function staleText(checkedMs, nowMs, limitMinutes) {
+    var minutes = ageMinutes(checkedMs, nowMs);
+    if (!(minutes > limitMinutes)) { return ""; }
+    return "The last check was " + ageText(minutes) + ". This page may be out of date.";
+  }
+
+  // The date of a bar of the strip: `back` days before the last day.
+  function stripDay(endDay, back) {
+    var bits = String(endDay).split("-");
+    var when = new Date(Date.UTC(+bits[0], +bits[1] - 1, +bits[2] - back));
+    if (isNaN(when.getTime())) { return ""; }
+    function two(n) { return (n < 10 ? "0" : "") + n; }
+    return two(when.getUTCMonth() + 1) + "/" + two(when.getUTCDate()) + "/" + when.getUTCFullYear();
+  }
+
+  function percentText(pct) {
+    return (pct === 100 ? "100" : pct.toFixed(2)) + "%";
+  }
+  /* pure:end */
+
+  var DAY_WORDS = { g: "no trouble", p: "some trouble", b: "trouble for a large part of the day", n: "no checks" };
+  var WINDOW_WORDS = [["24h", "24 hours"], ["7d", "7 days"], ["30d", "30 days"], ["90d", "90 days"]];
+  var MARKS = { ok: "✓", trouble: "!", down: "✕" };
+  var DEFAULT_STALE_MINUTES = 20;
+  var last = null;
+
+  function byId(id) { return document.getElementById(id); }
+
+  function make(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) { node.className = className; }
+    if (text !== undefined && text !== null) { node.textContent = text; }
+    return node;
+  }
+
+  function renderTop() {
+    var top = byId("top");
+    if (!last) {
+      top.removeAttribute("data-tone");
+      byId("mark").textContent = "?";
+      byId("headline").textContent = "No check result is available yet.";
+      byId("checked").textContent = "Look again in a few minutes.";
+      byId("stale").hidden = true;
+      return;
+    }
+    var checkedMs = new Date(last.checked_at).getTime();
+    var limit = typeof last.stale_after_minutes === "number" ? last.stale_after_minutes : DEFAULT_STALE_MINUTES;
+    var stale = staleText(checkedMs, Date.now(), limit);
+    // An old answer keeps its sentence but loses its color.
+    if (stale) { top.removeAttribute("data-tone"); } else { top.setAttribute("data-tone", last.overall); }
+    byId("mark").textContent = stale ? "?" : (MARKS[last.overall] || "?");
+    byId("headline").textContent = last.headline || "";
+    byId("checked").textContent = "Last check: " + centralTime(last.checked_at) + " Central time (" +
+      ageText(ageMinutes(checkedMs, Date.now())) + ").";
+    byId("stale").textContent = stale;
+    byId("stale").hidden = !stale;
+  }
+
+  function renderComponent(item, endDay) {
+    var card = make("article", "comp");
+    var head = make("div", "comp-head");
+    head.appendChild(make("h3", "", item.name));
+    var state;
+    if (item.state === "ok") {
+      state = make("p", "state ok", "Working");
+    } else if (item.state === "trouble") {
+      state = make("p", "state trouble", "Trouble" + (item.since ? " since " + centralTime(item.since) : ""));
+    } else {
+      state = make("p", "state unknown", "No check yet");
+    }
+    head.appendChild(state);
+    card.appendChild(head);
+    if (item.state === "trouble" && item.note) { card.appendChild(make("p", "note", item.note)); }
+
+    var letters = String(item.days || "");
+    var strip = make("div", "strip");
+    var counts = { g: 0, p: 0, b: 0, n: 0 };
+    for (var i = 0; i < letters.length; i += 1) {
+      var letter = DAY_WORDS[letters[i]] ? letters[i] : "n";
+      counts[letter] += 1;
+      var bar = make("i", letter);
+      bar.title = stripDay(endDay, letters.length - 1 - i) + ": " + DAY_WORDS[letter];
+      strip.appendChild(bar);
+    }
+    strip.setAttribute("role", "img");
+    strip.setAttribute("aria-label", "The last " + letters.length + " days: " +
+      plural(counts.g, "day") + " with no trouble, " + plural(counts.p, "day") + " with some trouble, " +
+      plural(counts.b, "day") + " with trouble for a large part of the day, " +
+      plural(counts.n, "day") + " with no checks.");
+    card.appendChild(strip);
+    var ends = make("div", "ends");
+    ends.appendChild(make("span", "", letters.length + " days ago"));
+    ends.appendChild(make("span", "", "Today"));
+    card.appendChild(ends);
+
+    var uptime = item.uptime || {};
+    var known = WINDOW_WORDS.filter(function (pair) {
+      return uptime[pair[0]] && typeof uptime[pair[0]].pct === "number";
+    });
+    if (!known.length) {
+      card.appendChild(make("p", "uptime-none", "Uptime: not enough data yet."));
+    } else {
+      var list = make("dl", "uptime");
+      WINDOW_WORDS.forEach(function (pair) {
+        var cell = make("div");
+        cell.appendChild(make("dt", "", pair[1]));
+        var value = uptime[pair[0]];
+        if (value && typeof value.pct === "number") {
+          cell.appendChild(make("dd", "", percentText(value.pct)));
+        } else {
+          cell.appendChild(make("dd", "none", "not enough data yet"));
+        }
+        list.appendChild(cell);
+      });
+      card.appendChild(list);
+    }
+    return card;
+  }
+
+  function renderIncident(item) {
+    var row = make("li", item.end ? "" : "open");
+    row.appendChild(make("strong", "", item.name));
+    row.appendChild(document.createTextNode(" "));
+    if (item.end) {
+      row.appendChild(make("span", "", centralTime(item.start) + " to " + centralTime(item.end) +
+        ", " + durationText(item.minutes) + "."));
+    } else {
+      row.appendChild(make("span", "", "Began " + centralTime(item.start) + " and is not over. " +
+        durationText(item.minutes) + " at the last check."));
+    }
+    return row;
+  }
+
+  function renderBody() {
+    if (!last) { return; }
+    var box = byId("components");
+    box.textContent = "";
+    var first = -1;
+    var length = 0;
+    (last.components || []).forEach(function (item) {
+      box.appendChild(renderComponent(item, last.days_end));
+      var letters = String(item.days || "");
+      length = Math.max(length, letters.length);
+      var at = letters.search(/[gpb]/);
+      if (at >= 0 && (first < 0 || at < first)) { first = at; }
+    });
+    byId("legend").hidden = false;
+    var began = byId("began");
+    began.hidden = !(first > 0);
+    if (first > 0) {
+      began.textContent = "The checks began on " + stripDay(last.days_end, length - 1 - first) +
+        ". The days before have no checks.";
+    }
+
+    var list = byId("incidents");
+    list.textContent = "";
+    var incidents = last.incidents || [];
+    if (!incidents.length) {
+      list.appendChild(make("li", "quiet", "No incident in the last 90 days."));
+    }
+    incidents.forEach(function (item) { list.appendChild(renderIncident(item)); });
+  }
+
+  function load() {
+    fetch("data/summary.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (answer) {
+        if (!answer.ok) { throw new Error("no summary"); }
+        return answer.json();
+      })
+      .then(function (summary) {
+        if (summary && summary.checked_at) { last = summary; }
+        renderTop();
+        renderBody();
+      })
+      .catch(function () {
+        // Keep the last known state on the page. Its age keeps counting.
+        renderTop();
+      });
+  }
+
+  load();
+  setInterval(load, 60000);
+  setInterval(renderTop, 20000);
+}());
+</script>
+</body>
+</html>
