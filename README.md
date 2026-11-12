@@ -5,7 +5,8 @@ of the website, so it still loads when the website does not.
 
 - **The watcher** is `watch.py`, run by a scheduled GitHub Actions workflow
   (`.github/workflows/watch.yml`) about every 5 minutes.
-- **The page** is `index.html`, served by GitHub Pages from this branch.
+- **The page** is `index.html`. The same workflow publishes it with GitHub
+  Pages after every run.
 - **The data** is in `data/`: one line per run in
   `data/history/<yyyy-mm>.jsonl`, and `data/summary.json`, which the page reads.
 
@@ -20,15 +21,30 @@ Every run asks six public addresses with a plain GET:
 | `app` | `https://app.homedoctors4u.com/api/health` | 200 and `"status": "healthy"` |
 | `ready` | `https://app.homedoctors4u.com/api/health/ready` | 200 |
 | `signin` | `https://app.homedoctors4u.com/login` | 200 |
-| `agency` | `https://app.homedoctors4u.com/hhn/login` | 200 |
+| `agency` | `https://hhn.homedoctors4u.com/hhn/login` | 200 |
 | `feed` | `https://app.homedoctors4u.com/api/status` | 200, JSON, `"version": 1` |
 | `site` | `https://www.homedoctors4u.com` | 200, after redirects |
 
 Each request has a 10-second timeout, one retry after 5 seconds for no answer
 or a 5xx, the fixed User-Agent `hd-status-watcher`, and no cookies.
 
-The run appends one line to the history and rewrites the summary. The workflow
-commits `data/` to this branch, and GitHub Pages publishes the branch.
+These are our three public host names: `app.` (the website for staff and
+providers), `hhn.` (the agency portal) and `www.` (our public website). The
+page and the data may name these three and no other host.
+
+One run, in this order:
+
+1. `watch.py` appends one line to the history and rewrites the summary.
+2. The workflow commits `data/` to `main` and pushes.
+3. It packs the site from that commit: `index.html` and `data/summary.json`,
+   nothing else. Not `watch.py`, not `tests/`, not `.github/`, not the history.
+4. A second job publishes the pack with GitHub Pages.
+
+When the commit or the push fails, steps 3 and 4 do not run. The page keeps
+the last published state, so it never shows a check that is not in the
+history. When only step 4 fails, the data is safe in the repository and the
+next run publishes it. The page says so when its newest check is more than 20
+minutes old.
 
 What the page shows:
 
@@ -101,27 +117,39 @@ Without Node they are skipped and say so.
 
 ## One-time GitHub settings
 
-1. **Create the repository and push `main`.** On a free plan GitHub Pages
-   needs a public repository.
-2. **Settings > Pages > Build and deployment.** Source: **Deploy from a
-   branch**. Branch: **main**, folder: **/ (root)**. Save. The `.nojekyll`
-   file tells Pages to serve the files as they are.
-3. **Settings > Actions > General.** Actions must be allowed (the workflow
-   uses `actions/checkout` only). The workflow asks for `contents: write`
-   itself. If the push step fails with a 403, set **Workflow permissions** to
+1. **Create the repository and push `main`.** On GitHub Free, Pages needs a
+   public repository. `main` must be the default branch: a scheduled workflow
+   runs only there.
+2. **Settings > Pages > Build and deployment > Source: GitHub Actions.** Not
+   "Deploy from a branch": GitHub does not build Pages from a commit that a
+   workflow pushes with the built-in token, and a branch site has a soft limit
+   of 10 builds an hour.
+3. **Settings > Environments > github-pages.** GitHub creates this environment
+   by itself. GitHub recommends a rule there so that only the default branch
+   can deploy: check that `main` is allowed, and only `main`.
+4. **Settings > Actions > General.** Actions must be allowed. The workflow
+   uses three actions, all by GitHub: `actions/checkout`,
+   `actions/upload-pages-artifact` (which calls `actions/upload-artifact`) and
+   `actions/deploy-pages`. The workflow asks for its own permissions
+   (`contents: write` in one job; `pages: write` and `id-token: write` in the
+   other). If the push step fails with a 403, set **Workflow permissions** to
    **Read and write permissions**.
-4. **Actions > watch > Run workflow** once. Do not wait for the schedule: the
+5. **Actions > watch > Run workflow** once. Do not wait for the schedule: the
    first scheduled run can take a while to start.
-5. If `main` gets a branch protection rule, it must let the Actions bot push,
+6. If `main` gets a branch protection rule, it must let the Actions bot push,
    or the watcher cannot commit.
 
-## Open before the first publish
+No secret and no personal access token. Each action is pinned to a commit:
 
-- The `agency` address in the table above answered **404** from production on
-  11/12/2026: the website does not serve the agency sign-in page at that
-  address. Until `PROBES` holds the address that agencies use, the page reads
-  "Some services have trouble." Change the address in `PROBES` and in the test
-  `test_the_six_addresses`, then remove this section.
+| Action | Version | Commit |
+|---|---|---|
+| `actions/checkout` | v7.0.1 | `3d3c42e5aac5ba805825da76410c181273ba90b1` |
+| `actions/upload-pages-artifact` | v5.0.0 | `fc324d3547104276b827a68afc52ff2a11cc49c9` |
+| `actions/deploy-pages` | v5.0.1 | `368f82528645a54fb793d4d04e342629a3f51346` |
+
+Read from each action's tags and release pages on 11/12/2026. To move to a
+newer version, read the commit of the new tag there and change both the
+workflow and this table.
 
 ## Add a component
 
@@ -133,6 +161,7 @@ A page of our own:
    what it does, never by a vendor.
 3. If it is a page of the website, add the key to `PARTS_OF_THE_WEBSITE`.
 4. Add the address to the test `test_the_six_addresses` and run the tests.
+   A new host name must be one that the public may know.
 
 A service behind the website (email, fax, text messages): nothing to do here.
 The website adds it to the feed, and the page shows it on the next run.
@@ -141,34 +170,50 @@ The website adds it to the feed, and the page shows it on the next run.
 
 For `status.homedoctors4u.com`:
 
-1. DNS: one `CNAME` record, `status` -> `<owner>.github.io` (the account that
-   owns this repository).
-2. Add a file named `CNAME` at the root of this branch with one line:
-   `status.homedoctors4u.com`. Settings > Pages > Custom domain writes that
-   file for you.
-3. When the certificate is ready, turn on **Enforce HTTPS**.
+1. Settings > Pages > Custom domain: type `status.homedoctors4u.com`, Save.
+2. DNS: one `CNAME` record, `status` -> `<owner>.github.io` (the account that
+   owns this repository, with no repository name).
+3. When the certificate is ready, turn on **Enforce HTTPS**. GitHub says this
+   can take up to 24 hours.
 
-The `CNAME` file is not in the repository yet.
+There is no `CNAME` file. GitHub's documentation: with a custom GitHub
+Actions workflow "no CNAME file is created, and any existing CNAME file is
+ignored and is not required."
 
 ## Known limits
 
 - **The schedule.** 5 minutes is the shortest interval. GitHub can start a
-  scheduled run late or skip one when it is busy. The page shows the time of
-  the last check and says when it is old.
-- **Pages builds.** GitHub documents a soft limit of 10 builds an hour for a
-  site that is published from a branch, and this watcher commits up to 12
-  times an hour. If the page falls behind the data, publish from the workflow
-  instead: source **GitHub Actions**, with `actions/upload-pages-artifact`
-  and `actions/deploy-pages`. That needs two more permissions (`pages: write`
-  and `id-token: write`), and the limit does not apply to it.
+  scheduled run late, most of all at the start of an hour, and can drop one
+  when it is busy. The page shows the time of the last check and says when it
+  is old.
+- **One run at a time.** A run waits for the run before it, and at most one
+  run waits. A deployment that hangs stops after 3 minutes.
+- **GitHub Pages limits** (GitHub's documentation, read 11/12/2026): a
+  published site may be no larger than 1 GB, a deployment times out after 10
+  minutes, and there is a soft bandwidth limit of 100 GB a month. The soft
+  limit of 10 builds an hour "does not apply if you build and publish your
+  site with a custom GitHub Actions workflow", which this is. The published
+  site is two small files.
+- **GitHub Pages terms.** The same page says: "GitHub Pages is not intended
+  for or allowed to be used as a free web-hosting service to run your online
+  business, e-commerce site, or any other website that is primarily directed
+  at either facilitating commercial transactions or providing commercial
+  software as a service (SaaS)." Our judgement: a status page is neither. It
+  sells nothing and runs no service, and many projects publish their status
+  page this way. The owner should know that the rule exists.
 - **No activity.** GitHub turns a scheduled workflow off in a public
   repository with no activity for 60 days. The data commits are activity.
 - **One vantage point.** The checks come from GitHub's network. A fault
   between GitHub and us looks like trouble. That is why one failed check alone
   is not an incident.
 - **The timeout** is 10 seconds per socket read, not for the whole request.
-  The job stops after 5 minutes.
+  Each job stops after 5 minutes.
 - **Growth.** About 8,600 lines a month, each about 200 to 500 bytes, and
-  about 105,000 commits a year.
+  about 105,000 commits a year. The history is in the repository only; the
+  published site does not grow.
+- **Actions minutes.** Every run is two jobs. Standard runners are free in a
+  public repository. A private repository would use paid minutes for about
+  17,000 jobs a month.
 - **Public.** The page, the history and this code are public. Keep vendor
-  names, internal host names and build versions out of every file.
+  names, build versions and every host name other than our three public ones
+  (`app.`, `hhn.` and `www.homedoctors4u.com`) out of every file.

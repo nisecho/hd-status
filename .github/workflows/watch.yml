@@ -1,8 +1,16 @@
-# The watcher. Every run asks the six public addresses, appends one line to
-# data/history/<yyyy-mm>.jsonl, rewrites data/summary.json and commits data/
-# to this branch. GitHub Pages serves this branch ("Deploy from a branch",
-# main, / (root)), so the commit is also the publish. README.md has the
-# one-time settings.
+# The watcher and the publisher.
+#
+# Job "watch" asks the six public addresses, appends one line to
+# data/history/<yyyy-mm>.jsonl, rewrites data/summary.json, commits data/ to
+# main, and then packs the site: index.html and data/summary.json, taken from
+# the commit, not from the working folder.
+# Job "deploy" publishes that pack with GitHub Pages (source "GitHub
+# Actions"; README.md has the one-time settings).
+#
+# The order is the rule: commit, push, pack, deploy. A step that fails stops
+# its job, and "deploy" needs "watch". So when the commit or the push fails,
+# nothing is packed and nothing is published: the page keeps the last
+# published state, and it never shows a check that is not in the history.
 name: watch
 
 on:
@@ -11,28 +19,37 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
-# The built-in token only, and only to write this repository's contents.
-# No secret and no personal access token.
-permissions:
-  contents: write
+# No permission by default. Each job asks for what it needs, from the
+# built-in token only. No secret and no personal access token.
+permissions: {}
 
-# Two runs never push at once: a new run waits for the run before it.
+# One run at a time, both jobs: two runs never push or deploy at once. A new
+# run waits for the run before it, and a newer one takes its place in line.
 concurrency:
   group: watch
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash # with "shell: bash" a failed command in a pipe fails the step
+
 jobs:
   watch:
+    # Scheduled runs are on the default branch. This stops a manual run from
+    # another branch.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write # to push the data/ commit
     steps:
       - name: Check out
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Run the checks
         run: python3 watch.py
 
-      - name: Commit data/ and publish
+      - name: Commit data/ and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -45,3 +62,34 @@ jobs:
           # A person can push between the checkout and here. Take their
           # commits first, then push. data/ has one writer, so no conflict.
           git push --quiet || { git pull --rebase --quiet && git push --quiet; }
+
+      - name: Pack the site from the commit
+        run: |
+          mkdir _site
+          git archive HEAD index.html data/summary.json | tar -x -C _site
+          ls -la _site _site/data
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    needs: watch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # The action's README (v5.0.1) names these two as the minimum. The release
+    # note of v4.0.0 also asked for "actions: read". If this job cannot find
+    # the artifact, add "actions: read" here.
+    permissions:
+      pages: write # to make a Pages deployment
+      id-token: write # to prove that the deployment comes from this workflow
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          timeout: 180000 # 3 minutes, so a deployment that hangs does not hold the next check
