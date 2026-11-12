@@ -56,6 +56,10 @@ COMPONENTS = (
     ("site", "Our public website"),
 )
 
+# These pages are parts of the website. When the website itself does not
+# answer, their failed checks are the same outage, not incidents of their own.
+PARTS_OF_THE_WEBSITE = ("signin", "agency")
+
 READY_NAME = "Website (a part is not ready)"
 READY_NOTE = "The website answers, but a part of it is not ready."
 
@@ -361,6 +365,19 @@ def incidents(points: list[tuple], now: datetime) -> list[dict]:
     return found
 
 
+def inside(incident: dict, others: list[dict]) -> bool:
+    """True when the incident lies inside one of the others: it began no
+    earlier and it ended no later."""
+    for other in others:
+        if other["start"] > incident["start"]:
+            continue
+        if other["end"] is None:
+            return True
+        if incident["end"] is not None and incident["end"] <= other["end"]:
+            return True
+    return False
+
+
 def current_state(points: list[tuple]) -> tuple[str | None, datetime | None]:
     """The state at the newest check: ("ok", None), ("trouble", since), or
     (None, None) when there is no check. The newest check decides, also
@@ -392,11 +409,13 @@ def day_strip(points: list[tuple], today: date, days: int = STRIP_DAYS) -> str:
     b bad, n no checks. Days are days of DAY_ZONE.
 
     A failed check counts only inside a run of 2 or more, as for an
-    incident. A day is bad when 10% or more of its checks failed that way.
+    incident, or in the run that is still open, so that today agrees with
+    the state of the component. A day is bad when 10% or more of its checks
+    failed that way.
     """
     confirmed = set()
     for run in failure_runs(points):
-        if len(run["times"]) >= MIN_INCIDENT_CHECKS:
+        if len(run["times"]) >= MIN_INCIDENT_CHECKS or run["end"] is None:
             confirmed.update(run["times"])
     checks: dict[date, int] = {}
     failed: dict[date, int] = {}
@@ -471,9 +490,12 @@ def summarize(rows: list[dict], now: datetime) -> dict:
     for ident, name in feed_names.items():
         listed.append((ident, name, series(rows, "feed:" + ident)))
 
+    website_incidents = incidents(listed[0][2], now)
     past = []
     for ident, name, points in listed:
         for incident in incidents(points, now):
+            if ident in PARTS_OF_THE_WEBSITE and inside(incident, website_incidents):
+                continue
             past.append(
                 {
                     "id": ident,

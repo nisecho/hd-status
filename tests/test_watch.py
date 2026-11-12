@@ -217,11 +217,29 @@ class Incidents(unittest.TestCase):
         summary = watch.summarize(rows, T0 + 2 * STEP)
         self.assertEqual(summary["overall"], "down")
         self.assertEqual(summary["headline"], "The website is not answering.")
-        # One outage, not a second incident for the readiness answer.
+        # One outage is one incident: the pages of the website and its
+        # readiness answer do not each add their own.
+        self.assertEqual([incident["id"] for incident in summary["incidents"]], ["app"])
         self.assertEqual(
-            sorted(incident["id"] for incident in summary["incidents"]),
-            ["agency", "app", "signin"],
+            [c["state"] for c in summary["components"]], ["trouble", "trouble", "trouble", "ok"]
         )
+
+    def test_a_sign_in_incident_that_began_before_the_website_went_down_is_listed(self):
+        down = {"app": 0, "ready": 0, "signin": 0, "agency": 0}
+        rows = [row(0), row(1, signin=0), row(2, **down), row(3, **down), row(4)]
+        summary = watch.summarize(rows, T0 + 4 * STEP)
+        self.assertEqual(
+            sorted(incident["id"] for incident in summary["incidents"]), ["app", "signin"]
+        )
+
+    def test_inside(self):
+        outer = [{"start": T0, "end": T0 + 4 * STEP}]
+        self.assertTrue(watch.inside({"start": T0, "end": T0 + 4 * STEP}, outer))
+        self.assertTrue(watch.inside({"start": T0 + STEP, "end": T0 + 2 * STEP}, outer))
+        self.assertFalse(watch.inside({"start": T0 - STEP, "end": T0 + 2 * STEP}, outer))
+        self.assertFalse(watch.inside({"start": T0 + STEP, "end": T0 + 5 * STEP}, outer))
+        self.assertFalse(watch.inside({"start": T0 + STEP, "end": None}, outer))
+        self.assertTrue(watch.inside({"start": T0 + STEP, "end": None}, [{"start": T0, "end": None}]))
 
     def test_not_ready_while_the_app_answers_is_trouble_on_the_website(self):
         rows = [row(0), row(1, ready=0), row(2, ready=0)]
@@ -270,6 +288,10 @@ class DayStrip(unittest.TestCase):
     def test_one_failed_check_alone_leaves_the_day_good(self):
         strip = watch.day_strip(points(True, False, True, True), self.TODAY)
         self.assertEqual(strip[-1], "g")
+
+    def test_the_first_failed_check_marks_today_while_it_is_still_open(self):
+        strip = watch.day_strip(points(*([True] * 20 + [False])), self.TODAY)
+        self.assertEqual(strip[-1], "p")
 
     def test_a_day_is_a_central_time_day(self):
         # 04:30 UTC on 11/13 is 10:30 PM Central on 11/12.
