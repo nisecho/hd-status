@@ -1,0 +1,47 @@
+# The watcher. Every run asks the six public addresses, appends one line to
+# data/history/<yyyy-mm>.jsonl, rewrites data/summary.json and commits data/
+# to this branch. GitHub Pages serves this branch ("Deploy from a branch",
+# main, / (root)), so the commit is also the publish. README.md has the
+# one-time settings.
+name: watch
+
+on:
+  schedule:
+    # Every 5 minutes, the shortest interval GitHub runs. A run can start late.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+# The built-in token only, and only to write this repository's contents.
+# No secret and no personal access token.
+permissions:
+  contents: write
+
+# Two runs never push at once: a new run waits for the run before it.
+concurrency:
+  group: watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Run the checks
+        run: python3 watch.py
+
+      - name: Commit data/ and publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- data
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit --quiet -m "check $(date -u +%Y-%m-%dT%H:%MZ)"
+          # A person can push between the checkout and here. Take their
+          # commits first, then push. data/ has one writer, so no conflict.
+          git push --quiet || { git pull --rebase --quiet && git push --quiet; }
