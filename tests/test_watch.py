@@ -646,6 +646,16 @@ class Page(unittest.TestCase):
         self.assertNotRegex(self.html, r"<script[^>]+src=")
         self.assertNotRegex(self.html, r"<link[^>]+stylesheet")
         self.assertNotIn("@import", self.html)
+        # The typeface, the mark and the tab icon come from the page's own
+        # folder, and each file the page names is in the repository.
+        named = set(re.findall(r"(?:url\(|src=\"|href=\")(assets/[^)\"]+)", self.html))
+        self.assertEqual(
+            named, {"assets/inter-latin.woff2", "assets/logo.png", "assets/favicon.png"}
+        )
+        for name in named:
+            self.assertTrue((ROOT / name).is_file(), name)
+        self.assertTrue((ROOT / "assets" / "inter-LICENSE.txt").is_file())
+        self.assertEqual(re.findall(r"url\(([^)]+)\)", self.html), ["assets/inter-latin.woff2"])
         self.assertNotIn("innerHTML", self.html)
         self.assertEqual(re.findall(r"fetch\(([^,]+),", self.html), ['"data/summary.json?t=" + Date.now()'])
 
@@ -694,8 +704,10 @@ class Workflow(unittest.TestCase):
         )
         self.assertIn("\npermissions: {}\n", self.text)
 
-    def test_the_site_is_packed_from_the_commit_and_holds_two_files(self):
-        self.assertIn("git archive HEAD index.html data/summary.json | tar -x -C _site", self.text)
+    def test_the_site_is_packed_from_the_commit_and_holds_the_page_its_data_and_its_assets(self):
+        self.assertIn(
+            "git archive HEAD index.html data/summary.json assets | tar -x -C _site", self.text
+        )
         self.assertLess(self.text.index("git push"), self.text.index("git archive HEAD"))
         self.assertLess(self.text.index("git archive HEAD"), self.text.index("upload-pages-artifact@"))
         self.assertIn("needs: watch", self.text)

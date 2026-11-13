@@ -36,8 +36,9 @@ One run, in this order:
 
 1. `watch.py` appends one line to the history and rewrites the summary.
 2. The workflow commits `data/` to `main` and pushes.
-3. It packs the site from that commit: `index.html` and `data/summary.json`,
-   nothing else. Not `watch.py`, not `tests/`, not `.github/`, not the history.
+3. It packs the site from that commit: `index.html`, `data/summary.json` and
+   `assets/`, nothing else. Not `watch.py`, not `tests/`, not `.github/`, not
+   the history.
 4. A second job publishes the pack with GitHub Pages.
 
 When the commit or the push fails, steps 3 and 4 do not run. The page keeps
@@ -95,7 +96,23 @@ error.
 - Patient data. No address that the watcher asks returns any.
 
 The page loads no font, script or tracker from another host. It reads
-`data/summary.json` from its own address and nothing else.
+`data/summary.json` from its own address, and its typeface, mark and tab icon
+from `assets/` at its own address, and nothing else.
+
+## The look
+
+The page looks like the website: the same typeface (Inter), grey scale, blue,
+status badge (a dot and words on a tint) and plain cards with rows divided by
+a line. The values are copied into `index.html` from the website's design
+values on 11/13/2026; the page still loads nothing from the website, so it
+keeps its look when the website is down. When the website's look changes,
+copy the new values by hand. The page has one look, light, as the website
+has.
+
+`assets/` holds `inter-latin.woff2` (Inter 5.3.0, the Latin subset, under the
+SIL Open Font License in `inter-LICENSE.txt`), `logo.png` (our mark) and
+`favicon.png`. A working day is a white card with a green mark. Trouble tints
+the top card, because colour marks only what needs attention.
 
 ## Run it locally
 
@@ -193,7 +210,7 @@ ignored and is not required."
   minutes, and there is a soft bandwidth limit of 100 GB a month. The soft
   limit of 10 builds an hour "does not apply if you build and publish your
   site with a custom GitHub Actions workflow", which this is. The published
-  site is two small files.
+  site is the page, its summary and four small files in `assets/`.
 - **GitHub Pages terms.** The same page says: "GitHub Pages is not intended
   for or allowed to be used as a free web-hosting service to run your online
   business, e-commerce site, or any other website that is primarily directed
