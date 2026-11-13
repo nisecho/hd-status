@@ -1,0 +1,199 @@
+{
+ "version": 1,
+ "checked_at": "2026-11-13T14:25:30Z",
+ "stale_after_minutes": 20,
+ "overall": "ok",
+ "headline": "All services are working.",
+ "feed": true,
+ "ready": {
+  "ok": true,
+  "degraded": false
+ },
+ "day_zone": "America/Chicago",
+ "days_end": "2026-11-13",
+ "components": [
+  {
+   "id": "app",
+   "name": "Website",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "signin",
+   "name": "Staff and provider sign-in",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "agency",
+   "name": "Agency portal sign-in",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "site",
+   "name": "Our public website",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "email",
+   "name": "Email",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "fax",
+   "name": "Fax",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  },
+  {
+   "id": "texts",
+   "name": "Text messages",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 1,
+     "pct": null
+    },
+    "7d": {
+     "checks": 1,
+     "pct": null
+    },
+    "30d": {
+     "checks": 1,
+     "pct": null
+    },
+    "90d": {
+     "checks": 1,
+     "pct": null
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnng"
+  }
+ ],
+ "incidents": []
+}
