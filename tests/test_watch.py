@@ -597,12 +597,17 @@ class Page(unittest.TestCase):
             [
                 "",
                 "",
-                "The last check was 21 minutes ago. This page may be out of date.",
-                "The last check was 47 minutes ago. This page may be out of date.",
-                "The last check was 3 hours ago. This page may be out of date.",
-                "The last check was 3 days ago. This page may be out of date.",
+                "The checks are late. This page may be out of date.",
+                "The checks are late. This page may be out of date.",
+                "The checks are late. This page may be out of date.",
+                "The checks are late. This page may be out of date.",
             ],
         )
+
+    def test_the_stale_line_does_not_repeat_the_age_of_the_check(self):
+        # "Last check: ... (3 hours ago)." is the line above it.
+        self.assertNotIn('"The last check was "', self.html)
+        self.assertEqual(self.run_pure("ageText(180)"), "3 hours ago")
 
     def test_times_are_us_central_twelve_hour(self):
         got = self.run_pure(

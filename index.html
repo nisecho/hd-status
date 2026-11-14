@@ -266,11 +266,12 @@ footer { margin-top: 24px; color: var(--muted); font-size: 12px; line-height: 18
     return Math.max(0, Math.floor((nowMs - checkedMs) / 60000));
   }
 
-  // The stale rule: a check older than the limit gets a plain sentence.
+  // The stale rule: a check older than the limit gets a plain sentence. The
+  // line above it already says how old the check is, so this one does not.
   function staleText(checkedMs, nowMs, limitMinutes) {
     var minutes = ageMinutes(checkedMs, nowMs);
     if (!(minutes > limitMinutes)) { return ""; }
-    return "The last check was " + ageText(minutes) + ". This page may be out of date.";
+    return "The checks are late. This page may be out of date.";
   }
 
   // The date of a bar of the strip: `back` days before the last day.

@@ -201,8 +201,13 @@ ignored and is not required."
 
 - **The schedule.** 5 minutes is the shortest interval. GitHub can start a
   scheduled run late, most of all at the start of an hour, and can drop one
-  when it is busy. The page shows the time of the last check and says when it
-  is old.
+  when it is busy. Measured here: from 11/13/2026 3 PM to 11/14/2026 noon
+  Central, GitHub started 4 scheduled runs, 4 to 7 hours apart. So the
+  schedule alone does not keep the page current. A run that someone starts
+  (Actions > watch > Run workflow, or `gh workflow run watch`) starts in
+  seconds, so a timer outside GitHub starts one every 5 minutes. The checks
+  still run on GitHub. The schedule stays as the fallback for when that timer
+  is off. The page shows the time of the last check and says when it is old.
 - **One run at a time.** A run waits for the run before it, and at most one
   run waits. A deployment that hangs stops after 3 minutes.
 - **GitHub Pages limits** (GitHub's documentation, read 11/12/2026): a
