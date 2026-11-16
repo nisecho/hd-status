@@ -1,13 +1,13 @@
 {
  "version": 1,
- "checked_at": "2026-11-16T16:32:10Z",
+ "checked_at": "2026-11-16T16:37:11Z",
  "stale_after_minutes": 20,
- "overall": "down",
- "headline": "The website is not answering.",
- "feed": false,
+ "overall": "ok",
+ "headline": "All services are working.",
+ "feed": true,
  "ready": {
   "ok": true,
-  "degraded": null
+  "degraded": false
  },
  "day_zone": "America/Chicago",
  "days_end": "2026-11-16",
@@ -15,58 +15,110 @@
   {
    "id": "app",
    "name": "Website",
-   "state": "trouble",
-   "since": "2026-11-16T16:32:10Z",
+   "state": "ok",
+   "since": null,
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 65,
-     "pct": 98.46
+     "checks": 66,
+     "pct": 98.48
     },
     "7d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     },
     "30d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     },
     "90d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggp"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
   },
   {
    "id": "signin",
    "name": "Staff and provider sign-in",
-   "state": "trouble",
-   "since": "2026-11-16T16:32:10Z",
+   "state": "ok",
+   "since": null,
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 65,
-     "pct": 98.46
+     "checks": 66,
+     "pct": 98.48
     },
     "7d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     },
     "30d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     },
     "90d": {
-     "checks": 126,
-     "pct": 99.2
+     "checks": 127,
+     "pct": 99.21
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggp"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
   },
   {
    "id": "agency",
    "name": "Agency portal sign-in",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 66,
+     "pct": 100.0
+    },
+    "7d": {
+     "checks": 127,
+     "pct": 100.0
+    },
+    "30d": {
+     "checks": 127,
+     "pct": 100.0
+    },
+    "90d": {
+     "checks": 127,
+     "pct": 100.0
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
+  },
+  {
+   "id": "site",
+   "name": "Our public website",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 66,
+     "pct": 100.0
+    },
+    "7d": {
+     "checks": 127,
+     "pct": 100.0
+    },
+    "30d": {
+     "checks": 127,
+     "pct": 100.0
+    },
+    "90d": {
+     "checks": 127,
+     "pct": 100.0
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
+  },
+  {
+   "id": "email",
+   "name": "Email",
    "state": "ok",
    "since": null,
    "note": null,
@@ -91,8 +143,34 @@
    "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
   },
   {
-   "id": "site",
-   "name": "Our public website",
+   "id": "fax",
+   "name": "Fax",
+   "state": "ok",
+   "since": null,
+   "note": null,
+   "uptime": {
+    "24h": {
+     "checks": 65,
+     "pct": 100.0
+    },
+    "7d": {
+     "checks": 126,
+     "pct": 100.0
+    },
+    "30d": {
+     "checks": 126,
+     "pct": 100.0
+    },
+    "90d": {
+     "checks": 126,
+     "pct": 100.0
+    }
+   },
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggg"
+  },
+  {
+   "id": "texts",
+   "name": "Text messages",
    "state": "ok",
    "since": null,
    "note": null,
