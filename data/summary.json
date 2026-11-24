@@ -1,13 +1,13 @@
 {
  "version": 1,
- "checked_at": "2026-11-24T12:02:13Z",
+ "checked_at": "2026-11-24T12:07:08Z",
  "stale_after_minutes": 20,
- "overall": "ok",
- "headline": "All services are working.",
- "feed": true,
+ "overall": "down",
+ "headline": "The website is not answering.",
+ "feed": false,
  "ready": {
   "ok": true,
-  "degraded": false
+  "degraded": null
  },
  "day_zone": "America/Chicago",
  "days_end": "2026-11-24",
@@ -15,54 +15,54 @@
   {
    "id": "app",
    "name": "Website",
-   "state": "ok",
-   "since": null,
+   "state": "trouble",
+   "since": "2026-11-24T12:07:08Z",
    "note": null,
    "uptime": {
     "24h": {
      "checks": 267,
-     "pct": 99.62
+     "pct": 99.25
     },
     "7d": {
-     "checks": 1373,
-     "pct": 99.78
+     "checks": 1374,
+     "pct": 99.7
     },
     "30d": {
-     "checks": 1709,
-     "pct": 99.76
+     "checks": 1710,
+     "pct": 99.7
     },
     "90d": {
-     "checks": 1709,
-     "pct": 99.76
+     "checks": 1710,
+     "pct": 99.7
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggp"
   },
   {
    "id": "signin",
    "name": "Staff and provider sign-in",
-   "state": "ok",
-   "since": null,
+   "state": "trouble",
+   "since": "2026-11-24T12:07:08Z",
    "note": null,
    "uptime": {
     "24h": {
      "checks": 267,
-     "pct": 99.62
+     "pct": 99.25
     },
     "7d": {
-     "checks": 1373,
-     "pct": 99.78
+     "checks": 1374,
+     "pct": 99.7
     },
     "30d": {
-     "checks": 1709,
-     "pct": 99.76
+     "checks": 1710,
+     "pct": 99.7
     },
     "90d": {
-     "checks": 1709,
-     "pct": 99.76
+     "checks": 1710,
+     "pct": 99.7
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggp"
   },
   {
    "id": "agency",
@@ -76,15 +76,15 @@
      "pct": 100.0
     },
     "7d": {
-     "checks": 1373,
+     "checks": 1374,
      "pct": 100.0
     },
     "30d": {
-     "checks": 1709,
+     "checks": 1710,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1709,
+     "checks": 1710,
      "pct": 100.0
     }
    },
@@ -102,93 +102,15 @@
      "pct": 100.0
     },
     "7d": {
-     "checks": 1373,
+     "checks": 1374,
      "pct": 100.0
     },
     "30d": {
-     "checks": 1709,
+     "checks": 1710,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1709,
-     "pct": 100.0
-    }
-   },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggg"
-  },
-  {
-   "id": "email",
-   "name": "Email",
-   "state": "ok",
-   "since": null,
-   "note": null,
-   "uptime": {
-    "24h": {
-     "checks": 266,
-     "pct": 100.0
-    },
-    "7d": {
-     "checks": 1370,
-     "pct": 100.0
-    },
-    "30d": {
-     "checks": 1705,
-     "pct": 100.0
-    },
-    "90d": {
-     "checks": 1705,
-     "pct": 100.0
-    }
-   },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggg"
-  },
-  {
-   "id": "fax",
-   "name": "Fax",
-   "state": "ok",
-   "since": null,
-   "note": null,
-   "uptime": {
-    "24h": {
-     "checks": 266,
-     "pct": 100.0
-    },
-    "7d": {
-     "checks": 1370,
-     "pct": 100.0
-    },
-    "30d": {
-     "checks": 1705,
-     "pct": 100.0
-    },
-    "90d": {
-     "checks": 1705,
-     "pct": 100.0
-    }
-   },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggg"
-  },
-  {
-   "id": "texts",
-   "name": "Text messages",
-   "state": "ok",
-   "since": null,
-   "note": null,
-   "uptime": {
-    "24h": {
-     "checks": 266,
-     "pct": 100.0
-    },
-    "7d": {
-     "checks": 1370,
-     "pct": 100.0
-    },
-    "30d": {
-     "checks": 1705,
-     "pct": 100.0
-    },
-    "90d": {
-     "checks": 1705,
+     "checks": 1710,
      "pct": 100.0
     }
    },
