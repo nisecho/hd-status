@@ -1,6 +1,6 @@
 {
  "version": 1,
- "checked_at": "2026-11-25T18:07:12Z",
+ "checked_at": "2026-11-25T18:12:10Z",
  "stale_after_minutes": 20,
  "overall": "ok",
  "headline": "All services are working.",
@@ -20,19 +20,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 213,
-     "pct": 99.53
+     "checks": 212,
+     "pct": 99.52
     },
     "7d": {
      "checks": 1322,
      "pct": 99.69
     },
     "30d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 99.69
     },
     "90d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 99.69
     }
    },
@@ -46,19 +46,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 213,
-     "pct": 99.53
+     "checks": 212,
+     "pct": 99.52
     },
     "7d": {
      "checks": 1322,
      "pct": 99.69
     },
     "30d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 99.69
     },
     "90d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 99.69
     }
    },
@@ -72,7 +72,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 213,
+     "checks": 212,
      "pct": 100.0
     },
     "7d": {
@@ -80,11 +80,11 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 100.0
     }
    },
@@ -98,7 +98,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 213,
+     "checks": 212,
      "pct": 100.0
     },
     "7d": {
@@ -106,11 +106,11 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1995,
+     "checks": 1996,
      "pct": 100.0
     }
    },
@@ -124,7 +124,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 212,
+     "checks": 211,
      "pct": 100.0
     },
     "7d": {
@@ -132,11 +132,11 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     }
    },
@@ -150,7 +150,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 212,
+     "checks": 211,
      "pct": 100.0
     },
     "7d": {
@@ -158,11 +158,11 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     }
    },
@@ -176,7 +176,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 212,
+     "checks": 211,
      "pct": 100.0
     },
     "7d": {
@@ -184,11 +184,11 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     },
     "90d": {
-     "checks": 1989,
+     "checks": 1990,
      "pct": 100.0
     }
    },
