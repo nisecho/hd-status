@@ -1,6 +1,6 @@
 {
  "version": 1,
- "checked_at": "2026-11-28T15:12:08Z",
+ "checked_at": "2026-11-28T15:17:09Z",
  "stale_after_minutes": 20,
  "overall": "ok",
  "headline": "All services are working.",
@@ -20,19 +20,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 209,
-     "pct": 99.04
+     "checks": 208,
+     "pct": 99.03
     },
     "7d": {
-     "checks": 1413,
+     "checks": 1414,
      "pct": 99.5
     },
     "30d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 99.65
     },
     "90d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 99.65
     }
    },
@@ -46,19 +46,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 209,
-     "pct": 99.04
+     "checks": 208,
+     "pct": 99.03
     },
     "7d": {
-     "checks": 1413,
+     "checks": 1414,
      "pct": 99.57
     },
     "30d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 99.69
     },
     "90d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 99.69
     }
    },
@@ -72,19 +72,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 209,
+     "checks": 208,
      "pct": 100.0
     },
     "7d": {
-     "checks": 1413,
+     "checks": 1414,
      "pct": 100.0
     },
     "30d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 100.0
     }
    },
@@ -98,19 +98,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 209,
+     "checks": 208,
      "pct": 100.0
     },
     "7d": {
-     "checks": 1413,
+     "checks": 1414,
      "pct": 100.0
     },
     "30d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2595,
+     "checks": 2596,
      "pct": 100.0
     }
    },
@@ -124,19 +124,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 207,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
-     "checks": 1407,
+     "checks": 1408,
      "pct": 100.0
     },
     "30d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     }
    },
@@ -150,19 +150,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 207,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
-     "checks": 1407,
+     "checks": 1408,
      "pct": 100.0
     },
     "30d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     }
    },
@@ -176,19 +176,19 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 207,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
-     "checks": 1407,
+     "checks": 1408,
      "pct": 100.0
     },
     "30d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2587,
+     "checks": 2588,
      "pct": 100.0
     }
    },
