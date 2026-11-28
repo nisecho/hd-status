@@ -1,6 +1,6 @@
 {
  "version": 1,
- "checked_at": "2026-11-28T03:22:08Z",
+ "checked_at": "2026-11-28T10:26:16Z",
  "stale_after_minutes": 20,
  "overall": "ok",
  "headline": "All services are working.",
@@ -10,7 +10,7 @@
   "degraded": false
  },
  "day_zone": "America/Chicago",
- "days_end": "2026-11-27",
+ "days_end": "2026-11-28",
  "components": [
   {
    "id": "app",
@@ -20,23 +20,23 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 223,
-     "pct": 99.55
+     "checks": 207,
+     "pct": 99.51
     },
     "7d": {
      "checks": 1354,
      "pct": 99.55
     },
     "30d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 99.68
     },
     "90d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 99.68
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "signin",
@@ -46,23 +46,23 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 223,
-     "pct": 99.55
+     "checks": 207,
+     "pct": 99.51
     },
     "7d": {
      "checks": 1354,
      "pct": 99.63
     },
     "30d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 99.72
     },
     "90d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 99.72
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "agency",
@@ -72,7 +72,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 223,
+     "checks": 207,
      "pct": 100.0
     },
     "7d": {
@@ -80,15 +80,15 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 100.0
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "site",
@@ -98,7 +98,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 223,
+     "checks": 207,
      "pct": 100.0
     },
     "7d": {
@@ -106,15 +106,15 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2535,
+     "checks": 2536,
      "pct": 100.0
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "email",
@@ -124,7 +124,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 222,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
@@ -132,15 +132,15 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "fax",
@@ -150,7 +150,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 222,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
@@ -158,15 +158,15 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   },
   {
    "id": "texts",
@@ -176,7 +176,7 @@
    "note": null,
    "uptime": {
     "24h": {
-     "checks": 222,
+     "checks": 206,
      "pct": 100.0
     },
     "7d": {
@@ -184,15 +184,15 @@
      "pct": 100.0
     },
     "30d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     },
     "90d": {
-     "checks": 2528,
+     "checks": 2529,
      "pct": 100.0
     }
    },
-   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnggggggggggggggg"
+   "days": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggg"
   }
  ],
  "incidents": []
